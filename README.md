@@ -28,8 +28,6 @@
 
 ## 2. Enunciado Original
 
-A continuación se presenta la consigna original, con los requerimientos de la pizzería y los formatos de archivo:
-
 > **TICS200 App #1 – Pizzería**
 
 Una reconocida pizzería de Namekusei guardó todas sus ventas en un archivo CSV, el cual dispuso para su análisis. Desean un análisis simple, donde las métricas son sólo fórmulas matemáticas básicas.  
