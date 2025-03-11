@@ -1,5 +1,20 @@
 # App1
 
+## **Profesores**
+- **María Loreto Arriagada** <br>
+  <loreto.arriagada.v@edu.uai.cl>
+
+- **Paulina González** <br>
+  <paulina.gonzalez.p@edu.uai.cl>
+
+- **Justo Vargas** <br>
+  <justo.vargas@edu.uai.cl>
+
+## **Ayudante**
+- **Diego Duhalde** <br>
+  <dduhalde@alumnos.uai.cl>
+
+
 ```markdown
 # **Tarea 1: Pizzería en C**
 
