@@ -15,7 +15,6 @@
   <dduhalde@alumnos.uai.cl>
 
 
-```markdown
 # **Tarea 1: Pizzería en C**
 
 ## 1. Objetivos
