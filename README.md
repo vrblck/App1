@@ -196,4 +196,3 @@ Ingrediente más vendido: ...
 La tarea busca verificar no solo que el programa **funcione**, sino que el/la estudiante muestre comprensión y reflexión sobre su diseño, uso de punteros a funciones y manejo de archivos CSV en C. El agregado de **Informe de diseño**, **Reflexiones finales** y **Explicación de IA** permitirá evidenciar el proceso de desarrollo, la lógica implementada y la honestidad sobre las herramientas utilizadas.
 
 ¡Éxito con la entrega!
-```
