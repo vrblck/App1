@@ -82,23 +82,17 @@ TICS200@localhost:~$ Pizza menos vendida: The classic Deluxe Pizza
 3. **Fecha de entrega**: Lunes 01 de Abril a las 23:59.  
    - Por cada día de atraso se descuenta 1 punto, comenzando a las 00:00.  
    - Compilador a usar: `gcc` v5.1 o superior.  
-4. La entrega se realiza por la plataforma Webcursos.  
-5. El archivo a entregar debe ser un **zip** que contenga una carpeta `tarea1/` con:  
-   - Un **README** con la información del grupo  
-   - La línea de compilación (o `Makefile`) que permita compilar el programa  
-   - Todo el código fuente (.c y .h)  
-   - (Ver secciones siguientes para los **nuevos entregables**)
+4. La entrega se realiza por la plataforma Webcursos especificando el nombre del repo.  
+5. El repo deberá cumplir con lo especificado en la sección 5 (Ver secciones siguientes para los **Formato de Entrega**)
 
 ---
 
-## 4. **Nuevos Entregables y Estructura Final**
-
-A lo largo de este curso, hemos incorporado herramientas como ChatGPT u otras IA de asistencia. Para asegurar que el aprendizaje sea **real** y no solo un ejercicio de copiar y pegar, se añaden los siguientes requisitos:
+## 4. **Entregables y Estructura Final**
 
 1. **Informe de diseño y justificación de la solución**  
-   - **Objetivo**: Explicar de manera breve (2-3 páginas máximo) cómo se organizó el código, las estructuras de datos empleadas (`struct order`, etc.), la justificación de la modularidad y el uso de punteros a funciones.  
+   - **Objetivo**: Explicar de manera breve cómo se organizó el código, las estructuras de datos empleadas (`struct order`, etc.), la justificación de la modularidad y el uso de punteros a funciones.  
    - **Contenido sugerido**:  
-     - *Diagrama de flujo* o *pseudocódigo* general que muestre el flujo principal del programa.  
+     - *Diagrama de flujo* general que muestre el flujo principal del programa.  
      - Razones de diseño (por qué se eligió un determinado método de parseo del CSV, cómo se almacenan ingredientes, etc.).  
      - Explicación de la interacción entre archivos (`main.c`, `metrics.c`, `utils.c`, etc.).  
      - Referencias a recursos externos utilizados.
@@ -116,16 +110,29 @@ A lo largo de este curso, hemos incorporado herramientas como ChatGPT u otras IA
 
 ---
 
-## 5. Formato de Entrega
+## 5. Formato de Entrega (vía repositorio GitHub)
 
-- **Nombre del archivo ZIP**: `grupoX-app1.zip`  
-- Dentro del ZIP, una carpeta única llamada `tarea1/` que contenga:  
-  1. El código fuente en C (archivos `.c` y `.h`).  
-  2. Un `Makefile` que compile sin errores y, idealmente, sin *warnings*.  
-  3. El **Informe de diseño** (PDF o Markdown).  
-  4. La **Sección de reflexiones finales** (puede estar en el mismo documento del informe o en un documento separado).  
-  5. La **Explicación de uso de IA** (puede estar también en el mismo documento).  
-  6. Un breve **README** con información del grupo y la **línea de compilación** para `app1` (si no se especifica en el Makefile).
+1. **Fork del repositorio base**  
+   - Deberán **forkear** el siguiente repositorio: [App1 en GitHub](https://github.com/UAI-Lenguaje-y-Paradigmas/App1).  
+   - En ese repositorio forkeado, **agregar** a todos los integrantes del grupo como colaboradores.  
+
+2. **Commits balanceados**  
+   - Cada integrante del grupo debe **tener aproximadamente la misma cantidad de commits**.  
+   - Se evaluará la participación equitativa a través del historial de commits (mensaje, fecha, contenido de los cambios, etc.).  
+
+3. **Estructura del repositorio**  
+   - Dentro de **la carpeta principal** (o la estructura que ustedes definan, pero claramente organizada), deberán incluir:  
+     1. **Código fuente en C** (archivos `.c` y `.h`), siguiendo una división modular y lógica.  
+     2. Un **Makefile** que compile la aplicación sin errores (y sin *warnings* en la medida de lo posible).  
+     3. Un **Informe de diseño** (PDF o Markdown) que explique la arquitectura del proyecto, el uso de punteros a funciones, la estrategia de lectura de CSV, etc.  
+     4. Una **Sección de reflexiones finales** o *autoevaluación*, que puede ir integrada al mismo informe u en un documento aparte.  
+     5. Una **Explicación de uso de IA** (si se utilizó ChatGPT u otra herramienta), también puede estar en el mismo documento de diseño.  
+     6. Un **README** breve con la información del grupo (nombres, correos, etc.) y la **línea de compilación** para `app1` (en caso de no especificarse ya en el Makefile).  
+
+4. **Entrega**  
+   - La entrega oficial consistirá en la **URL del repositorio forkeado**.  
+   - Asegúrense de que el repositorio sea **público** o que el profesor/ayudante tenga acceso.  
+   - Verifiquen que el programa compile y ejecute correctamente al clonar el repositorio y ejecutar `make` seguido de `./app1 ventas.csv pms ...` (o los parámetros de métricas requeridos).
 
 El proceso de corrección será:
 
