@@ -91,7 +91,7 @@ TICS200@localhost:~$ Pizza menos vendida: The classic Deluxe Pizza
 
 1. **Lenguaje**: C (sin frameworks externos no estándar).  
 2. **Grupos**: 2 o 3 personas.  
-3. **Fecha de entrega**: Lunes 01 de Abril a las 23:59.  
+3. **Fecha de entrega**: Sábado 29 de Marzo a las 23:59.  
    - Por cada día de atraso se descuenta 1 punto, comenzando a las 00:00.  
    - Compilador a usar: `gcc` v5.1 o superior.  
 4. La entrega se realiza por la plataforma Webcursos especificando el nombre del repo.  
