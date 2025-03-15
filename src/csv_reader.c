@@ -24,7 +24,10 @@ int leer_csv(const char *filename, Venta ventas[], int *total_ventas) {
         }
 
         Venta venta;
-        if (sscanf(line, "%d,%10[^,],%49[^,],%d,%f", &venta.id, venta.fecha, venta.pizza, &venta.cantidad, &venta.precio_unitario) == 5) {
+        if (sscanf(line, "%d,%d,%49[^,],%d,%10[^,],%8[^,],%f,%f,%1[^,],%19[^,],%99[^,],%49[^\n]",
+                   &venta.pizza_id, &venta.order_id, venta.pizza_name_id, &venta.quantity,
+                   venta.order_date, venta.order_time, &venta.unit_price, &venta.total_price,
+                   venta.pizza_size, venta.pizza_category, venta.pizza_ingredients, venta.pizza_name) == 12) {
             ventas[*total_ventas] = venta;
             (*total_ventas)++;
         }
