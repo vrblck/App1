@@ -1,5 +1,5 @@
 // csv_reader.c
-#include "include/csv_reader.h"
+#include "csv_reader.h"
 #include <string.h>
 
 int leer_csv(const char *filename, Venta ventas[], int *total_ventas) {

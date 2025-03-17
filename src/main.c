@@ -1,7 +1,7 @@
 // main.c
 #include <stdio.h>
-#include "include\csv_reader.h"
-#include "include\metrics.h"
+#include "csv_reader.h" 
+#include "metrics.h"
 
 #define MAX_ENTRIES 100
 
@@ -47,6 +47,12 @@ int main(int argc, char* argv[]) {
         printf("Error al leer el archivo CSV.\n");
         return 1;
     }
+    // Debug: Print the contents of the ventas array
+    printf("Total ventas: %d\n", total_ventas);
+    for (int i = 0; i < total_ventas; i++) {
+        printf("Venta %d: Pizza ID: %s, Quantity: %d, Pizza Name: %s\n",
+           i + 1, ventas[i].pizza_name_id, ventas[i].quantity, ventas[i].pizza_name);
+}
 
     // Procesar cada código de métrica proporcionado
     for (int i = 2; i < argc; i++) {
