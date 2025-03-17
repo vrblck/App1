@@ -2,7 +2,7 @@ CC=gcc
 CFLAGS=-Wall -Wextra -std=c11
 
 TARGET=app1
-SRCS=main.c csv_reader.c metrics.c
+SRCS=src/main.c src/csv_reader.c src/metrics.c
 OBJS=$(SRCS:.c=.o)
 
 all: $(TARGET)
@@ -14,4 +14,4 @@ $(TARGET): $(OBJS)
     $(CC) $(CFLAGS) -c $< -o $@
 
 clean:
-    rm -f $(OBJS) $(TARGET)
+    rm -f $(OBJS) $(TARGET)  

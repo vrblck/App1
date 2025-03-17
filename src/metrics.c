@@ -3,18 +3,29 @@
 #include <string.h>
 
 float calcular_total(Venta ventas[], int total) {
-    // Implementación de la métrica
-    // ...
+    float sum = 0;
+    for (int i = 0; i < total; i++) {
+         sum += ventas[i].total_price;
+    }
+    return sum;
 }
 
 float calcular_promedio_precio(Venta ventas[], int total) {
-    // Implementación de la métrica
-    // ...
+    if (total == 0) return 0.0;
+    float total_price = calcular_total(ventas, total);
+    int total_quantity = 0;
+    for (int i = 0; i < total; i++) {
+        total_quantity += ventas[i].quantity;
+    }
+    return total_quantity == 0 ? 0.0 : total_price / total_quantity;
 }
 
 float calcular_cantidad_total(Venta ventas[], int total) {
-    // Implementación de la métrica
-    // ...
+    int sum = 0;
+    for (int i = 0; i < total; i++) {
+        sum += ventas[i].quantity;
+    }
+    return (float)sum; // Retorna float para consistencia con MetricFunction
 }
 
 const char* pizza_mas_vendida(Venta ventas[], int total) {
