@@ -102,12 +102,7 @@ const char* pizza_menos_vendida(Venta ventas[], int total) {
         }
     }
 
-    // Debug: Print pizza_quantities
-    printf("Pizza Quantities:\n");
-    for (int i = 0; i < num_pizzas; i++) {
-        printf("Pizza ID: %s, Total Quantity: %d\n",
-               pizza_quantities[i].pizza_name_id, pizza_quantities[i].total_quantity);
-        }
+    
 
     if (num_pizzas == 0) return NULL;
     int min_quantity = pizza_quantities[0].total_quantity;

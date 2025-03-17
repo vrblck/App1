@@ -1,6 +1,7 @@
 // main.c
 #include <stdio.h>
-#include "csv_reader.h" 
+#include <string.h>
+#include "csv_reader.h"
 #include "metrics.h"
 
 #define MAX_ENTRIES 100
@@ -12,19 +13,68 @@ typedef struct {
     const char* description;       // Descripción para la salida
 } Metric;
 
-// Wrappers para las funciones de metrics.c
+// Wrappers for metrics
 void wrap_pizza_mas_vendida(Venta ventas[], int total, void* result) {
-    *(const char**)result = pizza_mas_vendida(ventas, total);
+    const char* pizza = pizza_mas_vendida(ventas, total);
+    snprintf((char*)result, 50, "%s", pizza); // Copy the string into the result buffer
 }
 
 void wrap_pizza_menos_vendida(Venta ventas[], int total, void* result) {
-    *(const char**)result = pizza_menos_vendida(ventas, total);
+    const char* pizza = pizza_menos_vendida(ventas, total);
+    snprintf((char*)result, 50, "%s", pizza); // Copy the string into the result buffer
+}
+
+void wrap_fecha_mas_ventas_dinero(Venta ventas[], int total, void* result) {
+    static char fecha[11];
+    static float total_dinero;
+    fecha_mas_ventas_dinero(ventas, total, fecha, &total_dinero);
+    snprintf((char*)result, 50, "%s: %.2f", fecha, total_dinero);
+}
+
+void wrap_fecha_menos_ventas_dinero(Venta ventas[], int total, void* result) {
+    static char fecha[11];
+    static float total_dinero;
+    fecha_menos_ventas_dinero(ventas, total, fecha, &total_dinero);
+    snprintf((char*)result, 50, "%s: %.2f", fecha, total_dinero);
+}
+
+void wrap_fecha_mas_ventas_cantidad(Venta ventas[], int total, void* result) {
+    static char fecha[11];
+    static int total_cantidad;
+    fecha_mas_ventas_cantidad(ventas, total, fecha, &total_cantidad);
+    snprintf((char*)result, 50, "%s: %d", fecha, total_cantidad);
+}
+
+void wrap_fecha_menos_ventas_cantidad(Venta ventas[], int total, void* result) {
+    static char fecha[11];
+    static int total_cantidad;
+    fecha_menos_ventas_cantidad(ventas, total, fecha, &total_cantidad);
+    snprintf((char*)result, 50, "%s: %d", fecha, total_cantidad);
+}
+
+void wrap_promedio_pizzas_por_orden(Venta ventas[], int total, void* result) {
+    *(float*)result = promedio_pizzas_por_orden(ventas, total);
+}
+
+void wrap_promedio_pizzas_por_dia(Venta ventas[], int total, void* result) {
+    *(float*)result = promedio_pizzas_por_dia(ventas, total);
+}
+
+void wrap_ingrediente_mas_vendido(Venta ventas[], int total, void* result) {
+    *(const char**)result = ingrediente_mas_vendido(ventas, total);
 }
 
 // Lista de métricas soportadas
 Metric metrics[] = {
-    {"pms", wrap_pizza_mas_vendida, "Pizza mas vendida"},
+    {"pms", wrap_pizza_mas_vendida, "Pizza más vendida"},
     {"pls", wrap_pizza_menos_vendida, "Pizza menos vendida"},
+    {"fmd", wrap_fecha_mas_ventas_dinero, "Fecha con mayor monto de ventas"},
+    {"fnd", wrap_fecha_menos_ventas_dinero, "Fecha con menor monto de ventas"},
+    {"fmc", wrap_fecha_mas_ventas_cantidad, "Fecha con mayor cantidad de ventas"},
+    {"fnc", wrap_fecha_menos_ventas_cantidad, "Fecha con menor cantidad de ventas"},
+    {"ppo", wrap_promedio_pizzas_por_orden, "Promedio de pizzas por orden"},
+    {"ppd", wrap_promedio_pizzas_por_dia, "Promedio de pizzas por día"},
+    {"imv", wrap_ingrediente_mas_vendido, "Ingrediente más vendido"},
     // Puedes agregar más métricas aquí
 };
 
@@ -48,11 +98,7 @@ int main(int argc, char* argv[]) {
         return 1;
     }
     // Debug: Print the contents of the ventas array
-    printf("Total ventas: %d\n", total_ventas);
-    for (int i = 0; i < total_ventas; i++) {
-        printf("Venta %d: Pizza ID: %s, Quantity: %d, Pizza Name: %s\n",
-           i + 1, ventas[i].pizza_name_id, ventas[i].quantity, ventas[i].pizza_name);
-}
+    
 
     // Procesar cada código de métrica proporcionado
     for (int i = 2; i < argc; i++) {
@@ -63,11 +109,15 @@ int main(int argc, char* argv[]) {
         for (int j = 0; j < num_metrics; j++) {
             if (strcmp(code, metrics[j].code) == 0) {
                 found = 1;
-                const char* result;
-                // Llamar a la función correspondiente y obtener el resultado
-                metrics[j].func(ventas, total_ventas, &result);
-                // Imprimir el resultado
-                printf("%s: %s\n", metrics[j].description, result ? result : "N/A");
+
+                // Allocate a buffer for the result
+                char result[50] = {0};
+
+                // Call the metric function
+                metrics[j].func(ventas, total_ventas, result);
+
+                // Print the result
+                printf("%s: %s\n", metrics[j].description, result);
                 break;
             }
         }
@@ -80,3 +130,4 @@ int main(int argc, char* argv[]) {
 
     return 0;
 }
+

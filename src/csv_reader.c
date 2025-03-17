@@ -1,6 +1,8 @@
 // csv_reader.c
 #include "csv_reader.h"
 #include <string.h>
+#include <stdlib.h>
+#include <stdio.h>
 
 int leer_csv(const char *filename, Venta ventas[], int *total_ventas) {
     FILE *file = fopen(filename, "r");
@@ -24,13 +26,51 @@ int leer_csv(const char *filename, Venta ventas[], int *total_ventas) {
         }
 
         Venta venta;
-        if (sscanf(line, "%d,%d,%49[^,],%d,%10[^,],%8[^,],%f,%f,%1[^,],%19[^,],%99[^,],%49[^\n]",
-                   &venta.pizza_id, &venta.order_id, venta.pizza_name_id, &venta.quantity,
-                   venta.order_date, venta.order_time, &venta.unit_price, &venta.total_price,
-                   venta.pizza_size, venta.pizza_category, venta.pizza_ingredients, venta.pizza_name) == 12) {
-            ventas[*total_ventas] = venta;
-            (*total_ventas)++;
-        }
+        char *token;
+        char *rest = line;
+
+        // Procesar cada campo manualmente
+        token = strtok(rest, ","); // pizza_id
+        if (token) venta.pizza_id = atoi(token);
+
+        token = strtok(NULL, ","); // order_id
+        if (token) venta.order_id = atoi(token);
+
+        token = strtok(NULL, ","); // pizza_name_id
+        if (token) strncpy(venta.pizza_name_id, token, sizeof(venta.pizza_name_id));
+
+        token = strtok(NULL, ","); // quantity
+        if (token) venta.quantity = atoi(token);
+
+        token = strtok(NULL, ","); // order_date
+        if (token) strncpy(venta.order_date, token, sizeof(venta.order_date));
+
+        token = strtok(NULL, ","); // order_time
+        if (token) strncpy(venta.order_time, token, sizeof(venta.order_time));
+
+        token = strtok(NULL, ","); // unit_price
+        if (token) venta.unit_price = atof(token);
+
+        token = strtok(NULL, ","); // total_price
+        if (token) venta.total_price = atof(token);
+
+        token = strtok(NULL, ","); // pizza_size
+        if (token) strncpy(venta.pizza_size, token, sizeof(venta.pizza_size));
+
+        token = strtok(NULL, ","); // pizza_category
+        if (token) strncpy(venta.pizza_category, token, sizeof(venta.pizza_category));
+
+        token = strtok(NULL, "\""); // pizza_ingredients (manejar comillas)
+        if (token) strncpy(venta.pizza_ingredients, token, sizeof(venta.pizza_ingredients));
+
+        token = strtok(NULL, ","); // pizza_name
+        if (token) strncpy(venta.pizza_name, token, sizeof(venta.pizza_name));
+
+        // Agregar la venta al arreglo
+        ventas[*total_ventas] = venta;
+        (*total_ventas)++;
+
+        
     }
 
     fclose(file);
