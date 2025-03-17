@@ -51,17 +51,19 @@ void wrap_fecha_menos_ventas_cantidad(Venta ventas[], int total, void* result) {
     fecha_menos_ventas_cantidad(ventas, total, fecha, &total_cantidad);
     snprintf((char*)result, 50, "%s: %d", fecha, total_cantidad);
 }
-
 void wrap_promedio_pizzas_por_orden(Venta ventas[], int total, void* result) {
-    *(float*)result = promedio_pizzas_por_orden(ventas, total);
+    float promedio = promedio_pizzas_por_orden(ventas, total);
+    snprintf((char*)result, 50, "%.2f", promedio);
 }
 
 void wrap_promedio_pizzas_por_dia(Venta ventas[], int total, void* result) {
-    *(float*)result = promedio_pizzas_por_dia(ventas, total);
+    float promedio = promedio_pizzas_por_dia(ventas, total);
+    snprintf((char*)result, 50, "%.2f", promedio);
 }
 
 void wrap_ingrediente_mas_vendido(Venta ventas[], int total, void* result) {
-    *(const char**)result = ingrediente_mas_vendido(ventas, total);
+    const char* ingrediente = ingrediente_mas_vendido(ventas, total);
+    snprintf((char*)result, 50, "%s", ingrediente ? ingrediente : "N/A");
 }
 
 // Lista de métricas soportadas
