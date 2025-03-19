@@ -1,6 +1,7 @@
 // metrics.c
 #include "metrics.h"
 #include <string.h>
+#include <stdio.h>
 
 float calcular_total(Venta ventas[], int total) {
     float sum = 0;
@@ -13,7 +14,7 @@ float calcular_total(Venta ventas[], int total) {
 float calcular_promedio_precio(Venta ventas[], int total) {
     if (total == 0) return 0.0;
     float total_price = calcular_total(ventas, total);
-    int total_quantity = 0;
+    float total_quantity = 0;
     for (int i = 0; i < total; i++) {
         total_quantity += ventas[i].quantity;
     }
@@ -21,113 +22,39 @@ float calcular_promedio_precio(Venta ventas[], int total) {
 }
 
 float calcular_cantidad_total(Venta ventas[], int total) {
-    int sum = 0;
+    float sum = 0;
     for (int i = 0; i < total; i++) {
         sum += ventas[i].quantity;
     }
-    return (float)sum; // Retorna float para consistencia con MetricFunction
+    return sum;
 }
 
 // Encuentra la pizza más vendida por cantidad total
 const char* pizza_mas_vendida(Venta ventas[], int total) {
-    if (total == 0) return NULL;
-    typedef struct {
-        char pizza_name_id[50];
-        int total_quantity;
-    } PizzaQuantity;
-    PizzaQuantity pizza_quantities[100] = {0};
-    int num_pizzas = 0;
-
+    static char pizza[50];
+    float max_quantity = 0;
     for (int i = 0; i < total; i++) {
-        char *current_id = ventas[i].pizza_name_id;
-        int found = 0;
-        for (int j = 0; j < num_pizzas; j++) {
-            if (strcmp(pizza_quantities[j].pizza_name_id, current_id) == 0) {
-                pizza_quantities[j].total_quantity += ventas[i].quantity;
-                found = 1;
-                break;
-            }
-        }
-        if (!found && num_pizzas < 100) {
-            strcpy(pizza_quantities[num_pizzas].pizza_name_id, current_id);
-            pizza_quantities[num_pizzas].total_quantity = ventas[i].quantity;
-            num_pizzas++;
+        if (ventas[i].quantity > max_quantity) {
+            max_quantity = ventas[i].quantity;
+            strcpy(pizza, ventas[i].pizza_name);
         }
     }
-
-    if (num_pizzas == 0) return NULL;
-    int max_quantity = -1;
-    char max_pizza_id[50] = "";
-    for (int i = 0; i < num_pizzas; i++) {
-        if (pizza_quantities[i].total_quantity > max_quantity) {
-            max_quantity = pizza_quantities[i].total_quantity;
-            strcpy(max_pizza_id, pizza_quantities[i].pizza_name_id);
-        }
-    }
-
-    for (int i = 0; i < total; i++) {
-        if (strcmp(ventas[i].pizza_name_id, max_pizza_id) == 0) {
-            static char result[50];
-            strcpy(result, ventas[i].pizza_name);
-            return result;
-        }
-    }
-    return NULL;
+    return max_quantity > 0 ? pizza : "N/A";
 }
 
 // Encuentra la pizza menos vendida por cantidad total
 const char* pizza_menos_vendida(Venta ventas[], int total) {
-    if (total == 0) return NULL;
-    typedef struct {
-        char pizza_name_id[50];
-        int total_quantity;
-    } PizzaQuantity;
-    PizzaQuantity pizza_quantities[100] = {0};
-    int num_pizzas = 0;
-
-    for (int i = 0; i < total; i++) {
-        char *current_id = ventas[i].pizza_name_id;
-        int found = 0;
-        for (int j = 0; j < num_pizzas; j++) {
-            if (strcmp(pizza_quantities[j].pizza_name_id, current_id) == 0) {
-                pizza_quantities[j].total_quantity += ventas[i].quantity;
-                found = 1;
-                break;
-            }
-        }
-        if (!found && num_pizzas < 100) {
-            strcpy(pizza_quantities[num_pizzas].pizza_name_id, current_id);
-            pizza_quantities[num_pizzas].total_quantity = ventas[i].quantity;
-            num_pizzas++;
+    static char pizza[50];
+    if (total == 0) return "N/A";
+    float min_quantity = ventas[0].quantity;
+    strcpy(pizza, ventas[0].pizza_name);
+    for (int i = 1; i < total; i++) {
+        if (ventas[i].quantity < min_quantity) {
+            min_quantity = ventas[i].quantity;
+            strcpy(pizza, ventas[i].pizza_name);
         }
     }
-
-    
-
-    if (num_pizzas == 0) return NULL;
-    int min_quantity = pizza_quantities[0].total_quantity;
-    char min_pizza_id[50] = "";
-    strcpy(min_pizza_id, pizza_quantities[0].pizza_name_id);
-    for (int i = 1; i < num_pizzas; i++) {
-        if (pizza_quantities[i].total_quantity < min_quantity) {
-            min_quantity = pizza_quantities[i].total_quantity;
-            strcpy(min_pizza_id, pizza_quantities[i].pizza_name_id);
-        }
-    }
-
-
-    // Debug: Print the minimum pizza
-    printf("Min Quantity: %d, Min Pizza ID: %s\n", min_quantity, min_pizza_id);
-
-
-    for (int i = 0; i < total; i++) {
-        if (strcmp(ventas[i].pizza_name_id, min_pizza_id) == 0) {
-            static char result[50];
-            strcpy(result, ventas[i].pizza_name);
-            return result;
-        }
-    }
-    return NULL;
+    return min_quantity > 0 ? pizza : "N/A";
 }
 
 // Encuentra la fecha con mayor monto de ventas

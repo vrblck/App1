@@ -1,8 +1,6 @@
-# Makefile para el proyecto App1
-
-# Compilador y opciones
+# Configuración del compilador
 CC = gcc
-CFLAGS = -Wall -Wextra -g -I./include
+CFLAGS = -Wall -Wextra -g -Iinclude
 
 # Directorios
 SRC_DIR = src
@@ -12,32 +10,33 @@ INCLUDE_DIR = include
 
 # Archivos fuente y objetos
 SRCS = $(wildcard $(SRC_DIR)/*.c)
-OBJS = $(patsubst $(SRC_DIR)/%.c,$(OBJ_DIR)/%.o,$(SRCS))
-TARGET = $(BIN_DIR)/app1
+OBJS = $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRCS))
+TARGET = $(BIN_DIR)/app1.exe
 
 # Regla principal
 all: directories $(TARGET)
 
-# Crear directorios necesarios
+# Crear directorios
 directories:
-	@mkdir -p $(OBJ_DIR)
-	@mkdir -p $(BIN_DIR)
+	@mkdir "$(OBJ_DIR)" 2> NUL || exit 0
+	@mkdir "$(BIN_DIR)" 2> NUL || exit 0
 
-# Regla para compilar el ejecutable
+# Compilar ejecutable
 $(TARGET): $(OBJS)
 	$(CC) $(CFLAGS) -o $@ $^
 
-# Regla para compilar archivos objeto
-$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
+# Compilar archivos objeto
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | directories
 	$(CC) $(CFLAGS) -c $< -o $@
 
 # Limpiar archivos generados
 clean:
-	rm -rf $(OBJ_DIR)/*.o $(TARGET)
+	@del /Q "$(OBJ_DIR)\*.o" 2> NUL || exit 0
+	@del /Q "$(TARGET)" 2> NUL || exit 0
 
-# Regla para ejecutar el programa
+# Ejecutar el programa
 run: all
-	./$(TARGET)
+	@$(TARGET)
 
-# Evita conflictos con archivos del mismo nombre
+# Evita problemas con nombres de archivos
 .PHONY: all clean run directories

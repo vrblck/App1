@@ -6,11 +6,11 @@
 
 #define MAX_ENTRIES 100
 
-// Estructura para mapear códigos de métricas a funciones y descripciones
+// Structure to map metric codes to functions and descriptions
 typedef struct {
-    const char* code;              // Código de la métrica (ej. "pms")
-    void (*func)(Venta[], int, void*); // Función que calcula la métrica
-    const char* description;       // Descripción para la salida
+    const char* code;              // Metric code (e.g., "pms")
+    void (*func)(Venta[], int, void*); // Function that calculates the metric
+    const char* description;       // Description for the output
 } Metric;
 
 // Wrappers for metrics
@@ -51,6 +51,7 @@ void wrap_fecha_menos_ventas_cantidad(Venta ventas[], int total, void* result) {
     fecha_menos_ventas_cantidad(ventas, total, fecha, &total_cantidad);
     snprintf((char*)result, 50, "%s: %d", fecha, total_cantidad);
 }
+
 void wrap_promedio_pizzas_por_orden(Venta ventas[], int total, void* result) {
     float promedio = promedio_pizzas_por_orden(ventas, total);
     snprintf((char*)result, 50, "%.2f", promedio);
@@ -66,67 +67,62 @@ void wrap_ingrediente_mas_vendido(Venta ventas[], int total, void* result) {
     snprintf((char*)result, 50, "%s", ingrediente ? ingrediente : "N/A");
 }
 
-// Lista de métricas soportadas
+void wrap_cantidad_pizzas_por_categoria(Venta ventas[], int total, void* result) {
+    int categorias[4] = {0}; // Assuming 4 categories: Classic, Veggie, Specialty, Other
+    cantidad_pizzas_por_categoria(ventas, total, categorias);
+    snprintf((char*)result, 50, "Classic: %d, Veggie: %d, Specialty: %d, Other: %d", categorias[0], categorias[1], categorias[2], categorias[3]);
+}
+
+// List of supported metrics
 Metric metrics[] = {
-    {"pms", wrap_pizza_mas_vendida, "Pizza más vendida"},
-    {"pls", wrap_pizza_menos_vendida, "Pizza menos vendida"},
-    {"fmd", wrap_fecha_mas_ventas_dinero, "Fecha con mayor monto de ventas"},
-    {"fnd", wrap_fecha_menos_ventas_dinero, "Fecha con menor monto de ventas"},
-    {"fmc", wrap_fecha_mas_ventas_cantidad, "Fecha con mayor cantidad de ventas"},
-    {"fnc", wrap_fecha_menos_ventas_cantidad, "Fecha con menor cantidad de ventas"},
-    {"ppo", wrap_promedio_pizzas_por_orden, "Promedio de pizzas por orden"},
-    {"ppd", wrap_promedio_pizzas_por_dia, "Promedio de pizzas por día"},
-    {"imv", wrap_ingrediente_mas_vendido, "Ingrediente más vendido"},
-    // Puedes agregar más métricas aquí
+    {"pms", wrap_pizza_mas_vendida, "Most sold pizza"},
+    {"pls", wrap_pizza_menos_vendida, "Least sold pizza"},
+    {"dms", wrap_fecha_mas_ventas_dinero, "Date with highest sales amount"},
+    {"dls", wrap_fecha_menos_ventas_dinero, "Date with lowest sales amount"},
+    {"dmsp", wrap_fecha_mas_ventas_cantidad, "Date with highest number of sales"},
+    {"dlsp", wrap_fecha_menos_ventas_cantidad, "Date with lowest number of sales"},
+    {"apo", wrap_promedio_pizzas_por_orden, "Average pizzas per order"},
+    {"apd", wrap_promedio_pizzas_por_dia, "Average pizzas per day"},
+    {"ims", wrap_ingrediente_mas_vendido, "Most sold ingredient"},
+    {"hp", wrap_cantidad_pizzas_por_categoria, "Number of pizzas sold by category"}
 };
 
 int num_metrics = sizeof(metrics) / sizeof(metrics[0]);
 
 int main(int argc, char* argv[]) {
-    // Validar que se proporcionen al menos el archivo y una métrica
     if (argc < 3) {
-        printf("Uso: %s <archivo.csv> <codigo_metrica1> [codigo_metrica2] ...\n", argv[0]);
+        printf("Usage: %s <csv_file> <metric_code>...\n", argv[0]);
         return 1;
     }
 
-    // Obtener el nombre del archivo CSV
     const char* filename = argv[1];
     Venta ventas[MAX_ENTRIES];
-    int total_ventas = 0;
+    int total_ventas;
 
-    // Leer el archivo CSV
     if (leer_csv(filename, ventas, &total_ventas) != 0) {
-        printf("Error al leer el archivo CSV.\n");
+        printf("Error reading CSV file.\n");
         return 1;
     }
-    // Debug: Print the contents of the ventas array
-    
 
-    // Procesar cada código de métrica proporcionado
     for (int i = 2; i < argc; i++) {
         const char* code = argv[i];
         int found = 0;
 
-        // Buscar la métrica en la lista
+        printf("Processing metric: %s\n", code); // Debug message
+
         for (int j = 0; j < num_metrics; j++) {
             if (strcmp(code, metrics[j].code) == 0) {
                 found = 1;
-
-                // Allocate a buffer for the result
-                char result[50] = {0};
-
-                // Call the metric function
+                char result[50];
+                printf("Calling function for metric: %s\n", metrics[j].description); // Debug message
                 metrics[j].func(ventas, total_ventas, result);
-
-                // Print the result
                 printf("%s: %s\n", metrics[j].description, result);
                 break;
             }
         }
 
-        // Si no se encuentra la métrica, mostrar un error
         if (!found) {
-            printf("Métrica desconocida: %s\n", code);
+            printf("Metric code not found: %s\n", code);
         }
     }
 
