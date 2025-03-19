@@ -108,15 +108,12 @@ int main(int argc, char* argv[]) {
         const char* code = argv[i];
         int found = 0;
 
-        printf("Processing metric: %s\n", code); // Debug message
-
         for (int j = 0; j < num_metrics; j++) {
             if (strcmp(code, metrics[j].code) == 0) {
                 found = 1;
                 char result[50];
-                printf("Calling function for metric: %s\n", metrics[j].description); // Debug message
                 metrics[j].func(ventas, total_ventas, result);
-                printf("%s: %s\n", metrics[j].description, result);
+                printf("%s: %s: %s\n", code, metrics[j].description, result);
                 break;
             }
         }
