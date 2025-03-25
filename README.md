@@ -121,17 +121,17 @@ Debe incluirse un `Makefile` con reglas para compilar el código y generar el ej
 ### **4.2. Explicación de cada archivo**
 | Archivo | Explicación |
 |---------|-------------|
-| `.vscode/...` | ... |
-| `bin/app1` | ... |
-| `data/ventas.csv` | ... |
-| `include/csv_reader.h` | ... |
-| `include/metrics.h` | ... |
-| `obj/...` | ... |
-| `src/csv_reader.c` | ... |
-| `src/main.c` | ... |
-| `src/metrics.c` | ... |
-| `Makefile` | ... |
-| `NUL` | ... |
+| `.vscode/...` | Se encuentran varios archivos con configuraciones específicas del entorno de desarrollo en Visual Studio Code y GitHub, como propiedades del compilador, configuraciones de lanzamiento y tareas. |
+| `bin/app1` | Es el ejecutable generado después de compilar el proyecto. Este es el archivo que se ejecuta para correr el programa. |
+| `data/ventas.csv` | Archivo de datos en formato CSV que contiene las ventas de pizzas. Este archivo es leído por el programa para calcular las métricas en `csv_reader.h`. |
+| `include/csv_reader.h` | Archivo de cabecera que contiene las declaraciones de funciones y estructuras utilizadas para leer y procesar el archivo CSV. |
+| `include/metrics.h` | Archivo de cabecera que contiene las declaraciones de funciones y estructuras utilizadas para calcular las métricas de ventas. |
+| `obj/...` | Directorio que contiene los archivos objeto (`.o`) generados durante la compilación. Estos archivos son el resultado de compilar los archivos fuente individuales. Se generan después de escribir "make" en terminal, siempre y cuando el `Makefile` funcione correctamente. |
+| `src/csv_reader.c` | Archivo fuente que contiene la implementación de las funciones para leer y procesar el archivo CSV. |
+| `src/main.c` | Archivo fuente que contiene la función principal del programa. Este archivo coordina la lectura del archivo CSV y la ejecución de las métricas solicitadas. |
+| `src/metrics.c` | Archivo fuente que contiene la implementación de las funciones para calcular las diferentes métricas de ventas. |
+| `Makefile` | Archivo que contiene las reglas para compilar el proyecto. Define cómo se deben compilar los archivos fuente y cómo se debe generar el ejecutable. Una vez compilado, se generan los archivos `.o` mencionados anteriormente. |
+| `NUL` | Archivo placeholder que puede ser utilizado para propósitos específicos del proyecto o del entorno de desarrollo, en este caso, en Visual Studio Code dentro de Codespace de GitHub. |
 
 ### **4.3. Reflexión y uso de IA**
 Debe incluirse en el informe un apartado sobre **aprendizajes adquiridos** y **uso de herramientas como ChatGPT o Copilot GitHub**, si corresponde.
