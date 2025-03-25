@@ -30,17 +30,47 @@ float calcular_cantidad_total(Venta ventas[], int total) {
 }
 
 //1 Encuentra la pizza más vendida por cantidad total
+typedef struct {
+    char pizza_name[50];
+    int total_quantity;
+} PizzaCount;
+
 const char* pizza_mas_vendida(Venta ventas[], int total) {
-    static char pizza[50];
-    float max_quantity = 0;
+    static PizzaCount pizzas[100] = {0}; // Array para acumular ventas
+    int num_pizzas = 0;
+
     for (int i = 0; i < total; i++) {
-        if (ventas[i].quantity > max_quantity) {
-            max_quantity = ventas[i].quantity;
-            strcpy(pizza, ventas[i].pizza_name);
+        char *current_pizza = ventas[i].pizza_name;
+        int found = 0;
+
+        for (int j = 0; j < num_pizzas; j++) {
+            if (strcmp(pizzas[j].pizza_name, current_pizza) == 0) {
+                pizzas[j].total_quantity += ventas[i].quantity;
+                found = 1;
+                break;
+            }
+        }
+
+        if (!found && num_pizzas < 100) {
+            strcpy(pizzas[num_pizzas].pizza_name, current_pizza);
+            pizzas[num_pizzas].total_quantity = ventas[i].quantity;
+            num_pizzas++;
         }
     }
-    return max_quantity > 0 ? pizza : "N/A";
+
+    int max_quantity = 0;
+    static char pizza_max[50] = "";
+
+    for (int i = 0; i < num_pizzas; i++) {
+        if (pizzas[i].total_quantity > max_quantity) {
+            max_quantity = pizzas[i].total_quantity;
+            strcpy(pizza_max, pizzas[i].pizza_name);
+        }
+    }
+
+    return max_quantity > 0 ? pizza_max : "N/A";
 }
+
 
 //2 Encuentra la pizza menos vendida por cantidad total
 const char* pizza_menos_vendida(Venta ventas[], int total) {
