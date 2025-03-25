@@ -15,8 +15,8 @@
 ### **Integrantes**  
 - **Valentina Roselló**  
   *GitHub: @vrblck*
-- **Nombre y Apellido**  
-  *GitHub: @usuario*  
+- **Jesús Salazar**  
+  *GitHub: @jesu9510*  
 - **Nombre y Apellido**  
   *GitHub: @usuario*  
 - **Nombre y Apellido**  
