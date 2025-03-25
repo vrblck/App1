@@ -29,7 +29,7 @@ float calcular_cantidad_total(Venta ventas[], int total) {
     return sum;
 }
 
-// Encuentra la pizza más vendida por cantidad total
+//1 Encuentra la pizza más vendida por cantidad total
 const char* pizza_mas_vendida(Venta ventas[], int total) {
     static char pizza[50];
     float max_quantity = 0;
@@ -42,7 +42,7 @@ const char* pizza_mas_vendida(Venta ventas[], int total) {
     return max_quantity > 0 ? pizza : "N/A";
 }
 
-// Encuentra la pizza menos vendida por cantidad total
+//2 Encuentra la pizza menos vendida por cantidad total
 const char* pizza_menos_vendida(Venta ventas[], int total) {
     static char pizza[50];
     if (total == 0) return "N/A";
@@ -57,7 +57,7 @@ const char* pizza_menos_vendida(Venta ventas[], int total) {
     return min_quantity > 0 ? pizza : "N/A";
 }
 
-// Encuentra la fecha con mayor monto de ventas
+//3 Encuentra la fecha con mayor monto de ventas
 void fecha_mas_ventas_dinero(Venta ventas[], int total, char* fecha, float* total_dinero) {
     if (total == 0) {
         strcpy(fecha, "");
@@ -100,7 +100,7 @@ void fecha_mas_ventas_dinero(Venta ventas[], int total, char* fecha, float* tota
     *total_dinero = max_sales;
 }
 
-// Encuentra la fecha con menor monto de ventas
+//4 Encuentra la fecha con menor monto de ventas
 void fecha_menos_ventas_dinero(Venta ventas[], int total, char* fecha, float* total_dinero) {
     if (total == 0) {
         strcpy(fecha, "");
@@ -144,7 +144,7 @@ void fecha_menos_ventas_dinero(Venta ventas[], int total, char* fecha, float* to
     *total_dinero = min_sales;
 }
 
-// Encuentra la fecha con mayor cantidad de pizzas vendidas
+//5 Encuentra la fecha con mayor cantidad de pizzas vendidas
 void fecha_mas_ventas_cantidad(Venta ventas[], int total, char* fecha, int* total_cantidad) {
     if (total == 0) {
         strcpy(fecha, "");
@@ -187,7 +187,7 @@ void fecha_mas_ventas_cantidad(Venta ventas[], int total, char* fecha, int* tota
     *total_cantidad = max_quantity;
 }
 
-// Encuentra la fecha con menor cantidad de pizzas vendidas
+//6 Encuentra la fecha con menor cantidad de pizzas vendidas
 void fecha_menos_ventas_cantidad(Venta ventas[], int total, char* fecha, int* total_cantidad) {
     if (total == 0) {
         strcpy(fecha, "");
@@ -231,7 +231,7 @@ void fecha_menos_ventas_cantidad(Venta ventas[], int total, char* fecha, int* to
     *total_cantidad = min_quantity;
 }
 
-// Calcula el promedio de pizzas por orden
+//7 Calcula el promedio de pizzas por orden
 float promedio_pizzas_por_orden(Venta ventas[], int total) {
     if (total == 0) return 0.0;
     typedef struct {
@@ -266,7 +266,7 @@ float promedio_pizzas_por_orden(Venta ventas[], int total) {
     return (float)total_pizzas / num_orders;
 }
 
-// Calcula el promedio de pizzas vendidas por día
+//8 Calcula el promedio de pizzas vendidas por día
 float promedio_pizzas_por_dia(Venta ventas[], int total) {
     if (total == 0) return 0.0;
     typedef struct {
@@ -301,7 +301,7 @@ float promedio_pizzas_por_dia(Venta ventas[], int total) {
     return (float)total_pizzas / num_dates;
 }
 
-// Encuentra el ingrediente más vendido por cantidad
+//9 Encuentra el ingrediente más vendido por cantidad
 const char* ingrediente_mas_vendido(Venta ventas[], int total) {
     if (total == 0) return NULL;
     typedef struct {
@@ -345,7 +345,7 @@ const char* ingrediente_mas_vendido(Venta ventas[], int total) {
     return max_quantity >= 0 ? result : NULL;
 }
 
-// Cuenta la cantidad de pizzas por categoría
+//10 Cuenta la cantidad de pizzas por categoría
 void cantidad_pizzas_por_categoria(Venta ventas[], int total, int* categorias) {
     const char* category_names[] = {"Classic", "Veggie", "Supreme", "Chicken", "Specialty"};
     const int num_categories = 5;
