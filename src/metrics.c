@@ -40,9 +40,9 @@ const char* pizza_mas_vendida(Venta ventas[], int total) {
     int num_pizzas = 0;
 
     for (int i = 0; i < total; i++) {
-        char *current_pizza = ventas[i].pizza_name;
-        int found = 0;
+        const char* current_pizza = ventas[i].pizza_name;
 
+        int found = 0;
         for (int j = 0; j < num_pizzas; j++) {
             if (strcmp(pizzas[j].pizza_name, current_pizza) == 0) {
                 pizzas[j].total_quantity += ventas[i].quantity;
@@ -52,7 +52,8 @@ const char* pizza_mas_vendida(Venta ventas[], int total) {
         }
 
         if (!found && num_pizzas < 100) {
-            strcpy(pizzas[num_pizzas].pizza_name, current_pizza);
+            strncpy(pizzas[num_pizzas].pizza_name, current_pizza, sizeof(pizzas[num_pizzas].pizza_name) - 1);
+            pizzas[num_pizzas].pizza_name[sizeof(pizzas[num_pizzas].pizza_name) - 1] = '\0';
             pizzas[num_pizzas].total_quantity = ventas[i].quantity;
             num_pizzas++;
         }
@@ -64,70 +65,52 @@ const char* pizza_mas_vendida(Venta ventas[], int total) {
     for (int i = 0; i < num_pizzas; i++) {
         if (pizzas[i].total_quantity > max_quantity) {
             max_quantity = pizzas[i].total_quantity;
-            strcpy(pizza_max, pizzas[i].pizza_name);
+            strncpy(pizza_max, pizzas[i].pizza_name, sizeof(pizza_max) - 1);
+            pizza_max[sizeof(pizza_max) - 1] = '\0';
         }
     }
 
     return max_quantity > 0 ? pizza_max : "N/A";
 }
 
-
-//2 Encuentra la pizza menos vendida por cantidad total
 const char* pizza_menos_vendida(Venta ventas[], int total) {
-    static char pizza[50];
-    if (total == 0) return "N/A";
-    float min_quantity = ventas[0].quantity;
-    strcpy(pizza, ventas[0].pizza_name);
-    for (int i = 1; i < total; i++) {
-        if (ventas[i].quantity < min_quantity) {
-            min_quantity = ventas[i].quantity;
-            strcpy(pizza, ventas[i].pizza_name);
-        }
-    }
-    return min_quantity > 0 ? pizza : "N/A";
-}
-
-//3 Encuentra la fecha con mayor monto de ventas
-void fecha_mas_ventas_dinero(Venta ventas[], int total, char* fecha, float* total_dinero) {
-    if (total == 0) {
-        strcpy(fecha, "");
-        *total_dinero = 0.0;
-        return;
-    }
-    typedef struct {
-        char date[11];
-        float total_price;
-    } DateSales;
-    DateSales date_sales[1000] = {0};
-    int num_dates = 0;
+    static PizzaCount pizzas[100] = {0};
+    int num_pizzas = 0;
 
     for (int i = 0; i < total; i++) {
-        char *current_date = ventas[i].order_date;
+        // Usar directamente el campo pizza_name
+        const char* current_pizza = ventas[i].pizza_name;
+
         int found = 0;
-        for (int j = 0; j < num_dates; j++) {
-            if (strcmp(date_sales[j].date, current_date) == 0) {
-                date_sales[j].total_price += ventas[i].total_price;
+
+        for (int j = 0; j < num_pizzas; j++) {
+            if (strcmp(pizzas[j].pizza_name, current_pizza) == 0) {
+                pizzas[j].total_quantity += ventas[i].quantity;
                 found = 1;
                 break;
             }
         }
-        if (!found && num_dates < 1000) {
-            strcpy(date_sales[num_dates].date, current_date);
-            date_sales[num_dates].total_price = ventas[i].total_price;
-            num_dates++;
+
+        if (!found && num_pizzas < 100) {
+            strncpy(pizzas[num_pizzas].pizza_name, current_pizza, sizeof(pizzas[num_pizzas].pizza_name) - 1);
+            pizzas[num_pizzas].pizza_name[sizeof(pizzas[num_pizzas].pizza_name) - 1] = '\0'; // Asegurar terminación nula
+            pizzas[num_pizzas].total_quantity = ventas[i].quantity;
+            num_pizzas++;
         }
     }
 
-    float max_sales = -1.0;
-    char max_date[11] = "";
-    for (int i = 0; i < num_dates; i++) {
-        if (date_sales[i].total_price > max_sales) {
-            max_sales = date_sales[i].total_price;
-            strcpy(max_date, date_sales[i].date);
+    int min_quantity = 1000000;
+    static char pizza_min[50] = "";
+
+    for (int i = 0; i < num_pizzas; i++) {
+        if (pizzas[i].total_quantity < min_quantity) {
+            min_quantity = pizzas[i].total_quantity;
+            strncpy(pizza_min, pizzas[i].pizza_name, sizeof(pizza_min) - 1);
+            pizza_min[sizeof(pizza_min) - 1] = '\0'; // Asegurar terminación nula
         }
     }
-    strcpy(fecha, max_date);
-    *total_dinero = max_sales;
+
+    return min_quantity < 1000000 ? pizza_min : "N/A";
 }
 
 //4 Encuentra la fecha con menor monto de ventas
@@ -332,62 +315,122 @@ float promedio_pizzas_por_dia(Venta ventas[], int total) {
 }
 
 //9 Encuentra el ingrediente más vendido por cantidad
-const char* ingrediente_mas_vendido(Venta ventas[], int total) {
-    if (total == 0) return NULL;
+void ingrediente_mas_vendido(Venta ventas[], int total, char* ingrediente_max) {
     typedef struct {
-        char ingredient[50];
-        int total_quantity;
-    } IngredientQuantity;
-    IngredientQuantity ingredient_quantities[100] = {0};
-    int num_ingredients = 0;
+        char ingrediente[50];
+        int cantidad;
+    } IngredienteCount;
+
+    IngredienteCount ingredientes[100] = {0};
+    int num_ingredientes = 0;
 
     for (int i = 0; i < total; i++) {
-        char ingredients_copy[100];
-        strcpy(ingredients_copy, ventas[i].pizza_ingredients);
-        char *token = strtok(ingredients_copy, ", ");
-        while (token != NULL && num_ingredients < 100) {
+        char ingredientes_local[200];
+        strcpy(ingredientes_local, ventas[i].pizza_ingredients);
+        
+        // Removemos comillas iniciales y finales si existen
+        if (ingredientes_local[0] == '"') {
+            memmove(ingredientes_local, ingredientes_local + 1, strlen(ingredientes_local));
+        }
+        if (ingredientes_local[strlen(ingredientes_local) - 1] == '"') {
+            ingredientes_local[strlen(ingredientes_local) - 1] = '\0';
+        }
+
+        char* token = strtok(ingredientes_local, ",");
+        while (token != NULL) {
             int found = 0;
-            for (int j = 0; j < num_ingredients; j++) {
-                if (strcmp(ingredient_quantities[j].ingredient, token) == 0) {
-                    ingredient_quantities[j].total_quantity += ventas[i].quantity;
+            for (int j = 0; j < num_ingredientes; j++) {
+                if (strcmp(ingredientes[j].ingrediente, token) == 0) {
+                    ingredientes[j].cantidad++;
                     found = 1;
                     break;
                 }
             }
-            if (!found) {
-                strcpy(ingredient_quantities[num_ingredients].ingredient, token);
-                ingredient_quantities[num_ingredients].total_quantity = ventas[i].quantity;
-                num_ingredients++;
+            if (!found && num_ingredientes < 100) {
+                strncpy(ingredientes[num_ingredientes].ingrediente, token, sizeof(ingredientes[num_ingredientes].ingrediente) - 1);
+                ingredientes[num_ingredientes].cantidad = 1;
+                num_ingredientes++;
             }
-            token = strtok(NULL, ", ");
+
+            token = strtok(NULL, ",");
         }
     }
 
-    if (num_ingredients == 0) return NULL;
-    int max_quantity = -1;
-    static char result[50];
-    for (int i = 0; i < num_ingredients; i++) {
-        if (ingredient_quantities[i].total_quantity > max_quantity) {
-            max_quantity = ingredient_quantities[i].total_quantity;
-            strcpy(result, ingredient_quantities[i].ingredient);
+    int max_cantidad = 0;
+    static char max_ingrediente[50] = "";
+
+    for (int i = 0; i < num_ingredientes; i++) {
+        if (ingredientes[i].cantidad > max_cantidad) {
+            max_cantidad = ingredientes[i].cantidad;
+            strcpy(max_ingrediente, ingredientes[i].ingrediente);
         }
     }
-    return max_quantity >= 0 ? result : NULL;
+
+    strcpy(ingrediente_max, max_cantidad > 0 ? max_ingrediente : "N/A");
 }
 
+
 //10 Cuenta la cantidad de pizzas por categoría
-void cantidad_pizzas_por_categoria(Venta ventas[], int total, int* categorias) {
-    const char* category_names[] = {"Classic", "Veggie", "Supreme", "Chicken", "Specialty"};
-    const int num_categories = 5;
-    for (int i = 0; i < num_categories; i++) {
-        categorias[i] = 0;
-    }
+void pizzas_por_categoria(Venta ventas[], int total) {
+    typedef struct {
+        char categoria[30];
+        int total_pizzas;
+    } CategoriaCount;
+
+    CategoriaCount categorias[20] = {0};
+    int num_categorias = 0;
+
     for (int i = 0; i < total; i++) {
-        for (int j = 0; j < num_categories; j++) {
-            if (strcmp(ventas[i].pizza_category, category_names[j]) == 0) {
-                categorias[j] += ventas[i].quantity;
+        const char* current_categoria = ventas[i].pizza_category;
+        int found = 0;
+
+        for (int j = 0; j < num_categorias; j++) {
+            if (strcmp(categorias[j].categoria, current_categoria) == 0) {
+                categorias[j].total_pizzas += ventas[i].quantity;
+                found = 1;
                 break;
             }
+        }
+
+        if (!found && num_categorias < 20) {
+            strncpy(categorias[num_categorias].categoria, current_categoria, sizeof(categorias[num_categorias].categoria) - 1);
+            categorias[num_categorias].total_pizzas = ventas[i].quantity;
+            num_categorias++;
+        }
+    }
+
+    printf("\nPizzas vendidas por categoría:\n");
+    for (int i = 0; i < num_categorias; i++) {
+        printf("Categoría: %s - Total Vendidas: %d\n", categorias[i].categoria, categorias[i].total_pizzas);
+    }
+}
+
+void fecha_mas_ventas_dinero(Venta ventas[], int total, char* fecha, float* total_dinero) {
+    *total_dinero = 0.0;
+    strcpy(fecha, "N/A");
+
+    for (int i = 0; i < total; i++) {
+        if (ventas[i].total_price > *total_dinero) {
+            *total_dinero = ventas[i].total_price;
+            strncpy(fecha, ventas[i].order_date, 10);
+            fecha[10] = '\0'; // Asegurar terminación nula
+        }
+    }
+}
+
+void cantidad_pizzas_por_categoria(Venta ventas[], int total, int* categorias) {
+    // Inicializar categorías
+    categorias[0] = categorias[1] = categorias[2] = categorias[3] = 0;
+
+    for (int i = 0; i < total; i++) {
+        if (strcmp(ventas[i].pizza_category, "Classic") == 0) {
+            categorias[0]++;
+        } else if (strcmp(ventas[i].pizza_category, "Veggie") == 0) {
+            categorias[1]++;
+        } else if (strcmp(ventas[i].pizza_category, "Specialty") == 0) {
+            categorias[2]++;
+        } else {
+            categorias[3]++;
         }
     }
 }

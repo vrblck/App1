@@ -19,7 +19,7 @@ void fecha_mas_ventas_cantidad(Venta ventas[], int total, char* fecha, int* tota
 void fecha_menos_ventas_cantidad(Venta ventas[], int total, char* fecha, int* total_cantidad);
 float promedio_pizzas_por_orden(Venta ventas[], int total);
 float promedio_pizzas_por_dia(Venta ventas[], int total);
-const char* ingrediente_mas_vendido(Venta ventas[], int total);
+void ingrediente_mas_vendido(Venta ventas[], int total, char* ingrediente_max);
 void cantidad_pizzas_por_categoria(Venta ventas[], int total, int* categorias);
 
 #endif // METRICS_H

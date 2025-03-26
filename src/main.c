@@ -63,9 +63,9 @@ void wrap_promedio_pizzas_por_dia(Venta ventas[], int total, void* result) {
 }
 
 void wrap_ingrediente_mas_vendido(Venta ventas[], int total, void* result) {
-    const char* ingrediente = ingrediente_mas_vendido(ventas, total);
-    snprintf((char*)result, 50, "%s", ingrediente ? ingrediente : "N/A");
+    ingrediente_mas_vendido(ventas, total, (char*)result);
 }
+
 
 void wrap_cantidad_pizzas_por_categoria(Venta ventas[], int total, void* result) {
     int categorias[4] = {0}; // Assuming 4 categories: Classic, Veggie, Specialty, Other

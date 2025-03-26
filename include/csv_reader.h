@@ -9,20 +9,20 @@
 #define MAX_ENTRIES 100
 
 typedef struct {
-    float pizza_id;
-    float order_id;
-    char pizza_name_id[50];    
-    float quantity;
-    char order_date[11];
-    char order_time[9];
-    float unit_price;
-    float total_price;
-    char pizza_size[2];
-    char pizza_category[20];
-    char pizza_ingredients[100];
-    char pizza_name[50];
+    float pizza_id;              // ID de la pizza (puede tener decimales)
+    float order_id;              // ID del pedido (puede tener decimales)
+    char pizza_name_id[50];      // ID del nombre de la pizza
+    float quantity;              // Cantidad vendida (puede tener decimales)
+    char order_date[11];         // Fecha del pedido (formato: dd/mm/yyyy)
+    char order_time[9];          // Hora del pedido (formato: hh:mm:ss)
+    float unit_price;            // Precio unitario
+    float total_price;           // Precio total
+    char pizza_size[2];          // Tamaño de la pizza (S, M, L, etc.)
+    char pizza_category[20];     // Categoría de la pizza (Classic, Veggie, etc.)
+    char pizza_ingredients[200]; // Ingredientes de la pizza
+    char pizza_name[50];         // Nombre de la pizza
 } Venta;
 
-int leer_csv(const char *filename, Venta ventas[], int *total_ventas);
+int leer_csv(const char* filename, Venta ventas[], int* total_ventas);
 
 #endif // CSV_READER_H
