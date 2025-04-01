@@ -1,19 +1,25 @@
 # App1
 
-## **Profesores**
+## **Profesorera**
 - **María Loreto Arriagada** <br>
   <loreto.arriagada.v@edu.uai.cl>
-
-- **Paulina González** <br>
-  <paulina.gonzalez.p@edu.uai.cl>
-
-- **Justo Vargas** <br>
-  <justo.vargas@edu.uai.cl>
 
 ## **Ayudante**
 - **Diego Duhalde** <br>
   <dduhalde@alumnos.uai.cl>
 
+### **Integrantes**  
+- **Valentina Roselló**  
+  *GitHub: @vrblck*
+- **Jesús Salazar**  
+  *GitHub: @jesu9510*  
+- **Alexander Vera**  
+  *GitHub: @alexanderveratry*  
+- **María Loreto Gaya**  
+  *GitHub: @Lore131989*  
+- **Diego Gajardo**  
+  *GitHub: @Wajax8*
+---
 
 # **Tarea 1: Pizzería en C**
 
