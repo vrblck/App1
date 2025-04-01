@@ -1,6 +1,6 @@
 # App1
 
-## **Profesorera**
+## **Profesora**
 - **María Loreto Arriagada** <br>
   <loreto.arriagada.v@edu.uai.cl>
 
@@ -8,7 +8,7 @@
 - **Diego Duhalde** <br>
   <dduhalde@alumnos.uai.cl>
 
-### **Integrantes**  
+## **Integrantes**  
 - **Valentina Roselló**  
   *GitHub: @vrblck*
 - **Jesús Salazar**  
