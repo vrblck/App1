@@ -173,8 +173,8 @@ void fecha_menos_ventas_dinero(Venta ventas[], int total, char* fecha, float* to
         if (ventas[i].total_price < *total_dinero) {
             *total_dinero = ventas[i].total_price;
             strncpy(fecha, ventas[i].order_date, 11);
-        }
-    }
+        }
+     }
 }
 
 
@@ -424,19 +424,6 @@ void pizzas_por_categoria(Venta ventas[], int total) {
     printf("\nPizzas vendidas por categoría:\n");
     for (int i = 0; i < num_categorias; i++) {
         printf("Categoría: %s - Total Vendidas: %d\n", categorias[i].categoria, categorias[i].total_pizzas);
-    }
-}
-
-void fecha_mas_ventas_dinero(Venta ventas[], int total, char* fecha, float* total_dinero) {
-    *total_dinero = 0.0;
-    strcpy(fecha, "N/A");
-
-    for (int i = 0; i < total; i++) {
-        if (ventas[i].total_price > *total_dinero) {
-            *total_dinero = ventas[i].total_price;
-            strncpy(fecha, ventas[i].order_date, 10);
-            fecha[10] = '\0'; // Asegurar terminación nula
-        }
     }
 }
 
