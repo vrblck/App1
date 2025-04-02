@@ -45,7 +45,7 @@ pizza_id,order_id,pizza_name_id,quantity,order_date,order_time,unit_price,total_
 3.00,2.00,five_cheese_l,1.00,1/1/2015,11:57:40,18.50,18.50,L,Veggie,"Mozzarella Cheese, Provolone Cheese, Smoked Gouda Cheese, Romano Cheese, Blue Cheese, Garlic",The Five Cheese Pizza
   ```
  
-- Ejemplo de ejecución en terminal:  
+- Ejemplo de ejecución en terminal (`main.c`):  
 ```bash
 bin/app1 data/ventas.csv metrica0 metrica1 ...
 ```
@@ -54,7 +54,7 @@ bin/app1 data/ventas.csv metrica0 metrica1 ...
   1. `pms`: Pizza más vendida / Most sold pizza 
   2. `pls`: Pizza menos vendida / Least sold pizza 
   3. `dms`: Fecha con más ventas en términos de dinero / Date with highest sales amount  
-  4. `dls`: Fecha con menos ventas en términos de dinero / / Date with lowest sales amount  
+  4. `dls`: Fecha con menos ventas en términos de dinero / Date with lowest sales amount  
   5. `dmsp`: Fecha con más ventas en términos de cantidad de pizzas / Date with highest number of sales  
   6. `dlsp`: Fecha con menos ventas en términos de cantidad de pizzas / Date with lowest number of sales
   7. `apo`: Promedio de pizzas por orden / Average pizzas per order
