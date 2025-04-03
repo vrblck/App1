@@ -1,4 +1,3 @@
-//metrics.c
 #include "metrics.h"
 #include <string.h>
 #include <stdio.h>
@@ -35,8 +34,6 @@ typedef struct {
     float total_quantity;
 } PizzaCount;
 
-
-//1 Encontrar la pizza más vendida
 const char* pizza_mas_vendida(Venta ventas[], int total) {
     static PizzaCount pizzas[100];
     int num_pizzas = 0;
@@ -80,7 +77,7 @@ const char* pizza_mas_vendida(Venta ventas[], int total) {
     for (int i = 0; i < num_pizzas; i++) {
         if (pizzas[i].total_quantity == max_quantity) {
             if (strlen(result) > 0) {
-                strncat(result, ", ", sizeof(result) - strlen(result) - 1);
+                strncat(result, ", ", sizeof(result) - strlen(result) - 1); // Agregar separador
             }
             strncat(result, pizzas[i].pizza_name, sizeof(result) - strlen(result) - 1);
         }
@@ -89,7 +86,6 @@ const char* pizza_mas_vendida(Venta ventas[], int total) {
     return result;
 }
 
-//2 Encontrar pizza menos vendida
 const char* pizza_menos_vendida(Venta ventas[], int total) {
     static PizzaCount pizzas[100];
     int num_pizzas = 0;
@@ -133,27 +129,13 @@ const char* pizza_menos_vendida(Venta ventas[], int total) {
     for (int i = 0; i < num_pizzas; i++) {
         if (pizzas[i].total_quantity == min_quantity) {
             if (strlen(result) > 0) {
-                strncat(result, ", ", sizeof(result) - strlen(result) - 1);
+                strncat(result, ", ", sizeof(result) - strlen(result) - 1); // Agregar separador
             }
             strncat(result, pizzas[i].pizza_name, sizeof(result) - strlen(result) - 1);
         }
     }
 
     return result;
-}
-
-//3 Encuentra fecha con mayor monto de ventas
-void fecha_mas_ventas_dinero(Venta ventas[], int total, char* fecha, float* total_dinero) {
-    *total_dinero = 0.0;
-    strcpy(fecha, "N/A");
-
-    for (int i = 0; i < total; i++) {
-        if (ventas[i].total_price > *total_dinero) {
-            *total_dinero = ventas[i].total_price;
-            strncpy(fecha, ventas[i].order_date, 10);
-            fecha[10] = '\0'; // Asegurar terminación nula
-        }
-    }
 }
 
 //4 Encuentra la fecha con menor monto de ventas
@@ -174,11 +156,8 @@ void fecha_menos_ventas_dinero(Venta ventas[], int total, char* fecha, float* to
             *total_dinero = ventas[i].total_price;
             strncpy(fecha, ventas[i].order_date, 11);
         }
-     }
+    }
 }
-
-
-
 
 //5 Encuentra la fecha con mayor cantidad de pizzas vendidas
 void fecha_mas_ventas_cantidad(Venta ventas[], int total, char* fecha, int* total_cantidad) {
@@ -427,6 +406,19 @@ void pizzas_por_categoria(Venta ventas[], int total) {
     }
 }
 
+void fecha_mas_ventas_dinero(Venta ventas[], int total, char* fecha, float* total_dinero) {
+    *total_dinero = 0.0;
+    strcpy(fecha, "N/A");
+
+    for (int i = 0; i < total; i++) {
+        if (ventas[i].total_price > *total_dinero) {
+            *total_dinero = ventas[i].total_price;
+            strncpy(fecha, ventas[i].order_date, 10);
+            fecha[10] = '\0'; // Asegurar terminación nula
+        }
+    }
+}
+
 void cantidad_pizzas_por_categoria(Venta ventas[], int total, int* categorias) {
     // Inicializar categorías
     categorias[0] = categorias[1] = categorias[2] = categorias[3] = 0;
@@ -443,4 +435,3 @@ void cantidad_pizzas_por_categoria(Venta ventas[], int total, int* categorias) {
         }
     }
 }
-

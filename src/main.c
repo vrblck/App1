@@ -16,12 +16,12 @@ typedef struct {
 // Wrappers for metrics
 void wrap_pizza_mas_vendida(Venta ventas[], int total, void* result) {
     const char* pizza = pizza_mas_vendida(ventas, total);
-    snprintf((char*)result, 50, "%s", pizza); // Copy the string into the result buffer
+    snprintf((char*)result, 500, "%s", pizza); // Ajustar tamaño del buffer
 }
 
 void wrap_pizza_menos_vendida(Venta ventas[], int total, void* result) {
     const char* pizza = pizza_menos_vendida(ventas, total);
-    snprintf((char*)result, 50, "%s", pizza); // Copy the string into the result buffer
+    snprintf((char*)result, 500, "%s", pizza); // Ajustar tamaño del buffer
 }
 
 void wrap_fecha_mas_ventas_dinero(Venta ventas[], int total, void* result) {
@@ -111,7 +111,7 @@ int main(int argc, char* argv[]) {
         for (int j = 0; j < num_metrics; j++) {
             if (strcmp(code, metrics[j].code) == 0) {
                 found = 1;
-                char result[50];
+                char result[500] = ""; // Aumentar el tamaño del buffer
                 metrics[j].func(ventas, total_ventas, result);
                 printf("%s: %s: %s\n", code, metrics[j].description, result);
                 break;

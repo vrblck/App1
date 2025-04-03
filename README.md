@@ -76,7 +76,7 @@ bin/app1 data/ventas.csv pms pls dms dls dmsp dlsp apo apd ims hp
 - Salida esperada:
 ```bash
 pms: Most sold pizza: The Margherita Pizza
-pls: Least sold pizza: The Veggie Deluxe Pizza, The Meat Lovers Pizza
+pls: Least sold pizza: The BBQ Chicken Pizza
 dms: Date with highest sales amount: 1/6/2015: 36.00
 dls: Date with lowest sales amount: 1/4/2015: 13.00
 dmsp: Date with highest number of sales: 1/3/2015: 5
@@ -87,10 +87,3 @@ ims: Most sold ingredient:  Mozzarella Cheese
 hp: Number of pizzas sold by category: Classic: 114, Veggie: 17, Specialty: 31, Other: 0
 ```
 ---
-
-## 5. Formato de Entrega (vía repositorio GitHub)
-
-1. **Fork del repositorio base**  
-   - Deberán **forkear** el siguiente repositorio: [App1 en GitHub](https://github.com/UAI-Lenguaje-y-Paradigmas/App1).  
-   - En ese repositorio forkeado, **agregar** a todos los integrantes del grupo como colaboradores. (Los cuales aparecen al principio de este archivo) 
-  
