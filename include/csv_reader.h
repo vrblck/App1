@@ -6,7 +6,7 @@
 #include <stdlib.h>
 
 #define MAX_LINE 1024
-#define MAX_ENTRIES 100
+#define MAX_ENTRIES 500
 
 typedef struct {
     float pizza_id;              // ID de la pizza (puede tener decimales)
