@@ -4,7 +4,7 @@
 #include "csv_reader.h"
 #include "metrics.h"
 
-#define MAX_ENTRIES 500
+#define MAX_ENTRIES contar_lineas_csv("data/ventas.csv")
 
 // Structure to map metric codes to functions and descriptions
 typedef struct {

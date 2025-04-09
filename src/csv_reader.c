@@ -40,3 +40,21 @@ int leer_csv(const char *filename, Venta ventas[], int *total_ventas) {
     fclose(file);
     return 0;
 }
+
+// Implementación de la función para contar líneas en el CSV
+int contar_lineas_csv(const char* filename) {
+    FILE* file = fopen(filename, "r");
+    if (!file) {
+        perror("Error al abrir el archivo");
+        return 500; // Valor por defecto si no se puede leer el archivo
+    }
+
+    int line_count = 0;
+    char line[MAX_LINE];
+    while (fgets(line, sizeof(line), file)) {
+        line_count++;
+    }
+
+    fclose(file);
+    return line_count;
+}

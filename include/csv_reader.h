@@ -6,7 +6,12 @@
 #include <stdlib.h>
 
 #define MAX_LINE 1024
-#define MAX_ENTRIES 500
+
+// Declaración de la función para contar líneas en el CSV
+int contar_lineas_csv(const char* filename);
+
+// Define dinámico para MAX_ENTRIES
+#define MAX_ENTRIES contar_lineas_csv("data/ventas.csv")
 
 typedef struct {
     float pizza_id;              // ID de la pizza (puede tener decimales)
